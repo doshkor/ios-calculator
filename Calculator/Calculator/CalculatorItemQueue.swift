@@ -8,14 +8,14 @@
 import Foundation
 
 struct CalculatorItemQueue {
-//    var queue = LinkedList.shared
+    private let queue: LinkedList = LinkedList()
     
     func enqueue(data: Value) {
-        LinkedList.shared.append(data: data)
+        queue.append(data: data)
     }
     
     func dequeue() {
-        LinkedList.shared.remove()
+        queue.remove()
     }
 }
 
@@ -41,7 +41,7 @@ enum ExpresstionParser {
     func parse(from input: String) -> Formula? {
 //        componentsByOperators(from: )로 나눈 [String]을 Formula 타입으로 넣어주기.
         let result = componentsByOperators(from: input)
-        Formula(operands: <#T##CalculatorItemQueue#>, operators: <#T##CalculatorItemQueue#>)
+//        Formula(operands: <#T##CalculatorItemQueue#>, operators: <#T##CalculatorItemQueue#>)
 //        return Formula(operands: result[1], operators: result[0])
         return nil
     }

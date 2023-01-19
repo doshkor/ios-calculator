@@ -46,5 +46,3 @@ enum Operator: Character, CalculateItem, CaseIterable {
         return lhs * rhs
     }
 }
-
-
