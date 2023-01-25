@@ -34,7 +34,7 @@ enum Operator: Character, CalculateItem, CaseIterable {
         return lhs + rhs
     }
     private func substract(lhs: Double, rhs: Double) -> Double {
-        print("divide 함수 실행")
+        print("substract 함수 실행")
         return lhs - rhs
     }
     private func divide(lhs: Double, rhs: Double) -> Double {

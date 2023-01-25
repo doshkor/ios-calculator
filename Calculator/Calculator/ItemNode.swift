@@ -8,10 +8,10 @@
 import Foundation
 
 final class ItemNode {
-    let data: Value
+    let data: String
     var next: ItemNode?
     
-    init(data: Value, next: ItemNode? = nil) {
+    init(data: String, next: ItemNode? = nil) {
         self.data = data
         self.next = next
     }

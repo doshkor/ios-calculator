@@ -7,11 +7,11 @@
 
 import Foundation
 
-final class LinkedList {
+final class LinkedList: CalculateItem {
     private var head: ItemNode?
     private var tail: ItemNode?
     
-    func append(data: Value) {
+    func append(data: String) {
         if head == nil {
             head = ItemNode(data: data)
             tail = head
@@ -27,13 +27,12 @@ final class LinkedList {
         tail = node?.next
     }
     
-    @discardableResult
-    func remove() -> Value? {
+    func remove() -> String? {
         guard head != nil else {
             return nil
         }
         
-        let result: Value?
+        let result: String?
         
         result = head?.data
         head = head?.next
@@ -43,5 +42,18 @@ final class LinkedList {
         }
         
         return result
+    }
+    
+    func count() -> Int {
+        guard var node = self.head else {
+            return 0
+        }
+        var count = 0
+        
+        while node.next != nil {
+            count += 1
+            node = node.next!
+        }
+        return count
     }
 }

@@ -10,51 +10,71 @@ import Foundation
 struct CalculatorItemQueue {
     private let queue: LinkedList = LinkedList()
     
-    func enqueue(data: Value) {
+    func enqueue(data: String) {
         queue.append(data: data)
     }
     
-    func dequeue() {
-        queue.remove()
+    func dequeue() -> String? {
+        return queue.remove()
+    }
+    
+    func count() -> Int {
+        return queue.count()
     }
 }
 
 struct Formula {
     // 피연산자(연산자의 연산의 대상)
-    var operands: CalculatorItemQueue {
-        didSet {
-            self.operands.enqueue(data: <#T##Value#>)
-        }
-    }
+    var operands: CalculatorItemQueue
     // 연산자
     var operators: CalculatorItemQueue
     
     func result() -> Double {
-            
-        // operators를 사용해 operands 계산하기
         
-        return 0.0
+        // 나중에 Error 관련해서 생성한 이후, {} 안에 return이 아닌 Error throw로 변경
+        guard let firstHead = operands.dequeue() else { return 0.0 }
+        guard var middleResult = Double(firstHead) else { return 0.0 }
+        
+        (0...operands.count()).forEach { _ in
+            guard let nextNode = operands.dequeue() else { return }
+            guard let rhs = Double(nextNode) else { return }
+            
+            guard let stringOperator = operators.dequeue() else { return }
+            guard let eachOperator = Operator(rawValue: stringOperator[stringOperator.startIndex]) else { return }
+            
+            middleResult = eachOperator.calculate(lhs: middleResult, rhs: rhs)
+        }
+        print("결과는? \(middleResult)")
+        
+        return middleResult
     }
 }
 
 enum ExpresstionParser {
-    func parse(from input: String) -> Formula? {
-//        componentsByOperators(from: )로 나눈 [String]을 Formula 타입으로 넣어주기.
-        let result = componentsByOperators(from: input)
-//        Formula(operands: <#T##CalculatorItemQueue#>, operators: <#T##CalculatorItemQueue#>)
-//        return Formula(operands: result[1], operators: result[0])
-        return nil
+    static func parse(from input: String) -> Formula? {
+        // input을 나누지 못하니 일단 sample 배열
+//        let sample = ["1", "+", "51", "*", "2", "/", "2"]
+        
+        let userInput = componentsByOperators(from: input)
+        
+        let numberQueue = CalculatorItemQueue()
+        let operatorQueue = CalculatorItemQueue()
+        
+        (0...userInput.count-1).forEach { index in
+            index % 2 == 0 ? numberQueue.enqueue(data: userInput[index]) : operatorQueue.enqueue(data: userInput[index])
+        }
+        let result = Formula(operands: numberQueue, operators: operatorQueue)
+        result.result()
+        
+        return result
     }
     
-    private func componentsByOperators(from input: String) -> [String] {
-        // 1. input에서 연산자 포함하고 있는지 확인하기
-        // 2. 연산자 갖고 있으면 그 연산자를 extension String에 구현한 split함수에 전달해주기
-        // 3. 2번에서 return으로 [String] 받아서 return 주기
-        var result = [String]()
-        
-        Operator.allCases.forEach { eachOperator in
-            if input.contains(eachOperator.rawValue){
-                result = input.split(with: eachOperator.rawValue)
+    private static func componentsByOperators(from input: String) -> [String] {
+        var result: [String] = [input]
+
+        Operator.allCases.forEach { myOperator in
+            result = result.flatMap {
+                $0.split(with: myOperator.rawValue)
             }
         }
         return result
