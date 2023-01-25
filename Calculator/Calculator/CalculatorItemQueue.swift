@@ -50,7 +50,7 @@ struct Formula {
     }
 }
 
-enum ExpresstionParser {
+enum ExpressionParser {
     static func parse(from input: String) -> Formula? {
         // 빈 배열일때,
         guard !input.isEmpty else { return nil }
@@ -64,7 +64,7 @@ enum ExpresstionParser {
             index % 2 == 0 ? numberQueue.enqueue(data: userInput[index]) : operatorQueue.enqueue(data: userInput[index])
         }
         let result = Formula(operands: numberQueue, operators: operatorQueue)
-        result.result()
+        _ = result.result()
         
         return result
     }

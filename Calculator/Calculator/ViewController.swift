@@ -13,6 +13,6 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // test
-        _ = ExpresstionParser.parse(from: "ff")
+        _ = ExpressionParser.parse(from: "ff")
     }
 }
