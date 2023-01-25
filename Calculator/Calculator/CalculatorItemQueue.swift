@@ -52,8 +52,8 @@ struct Formula {
 
 enum ExpresstionParser {
     static func parse(from input: String) -> Formula? {
-        // input을 나누지 못하니 일단 sample 배열
-//        let sample = ["1", "+", "51", "*", "2", "/", "2"]
+        // 빈 배열일때,
+        guard !input.isEmpty else { return nil }
         
         let userInput = componentsByOperators(from: input)
         
